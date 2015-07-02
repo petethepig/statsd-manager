@@ -36,7 +36,7 @@
             </span>
           </span>
 
-          <span class="red cursor-pointer" ng-click="delete(node)"><i class="fa fa-times"></i></span>
+          <span class="red cursor-pointer" ng-if="node.level > 1" ng-click="delete(node)"><i class="fa fa-times"></i></span>
 
           <div class="node-container" ng-if="node.expand">
             <div class="node" ng-repeat="node in node.nodes" ng-include="'nodes_renderer.html'"></div>

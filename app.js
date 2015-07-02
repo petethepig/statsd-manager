@@ -33,7 +33,6 @@ var controllers = angular.module('controllers', [])
 
 controllers.controller('main', function($scope){
   $scope.stats = {};
-  $scope.counters = ["counters", "gauges", "timers"];
 
   var hash = {
     "": {
@@ -55,18 +54,15 @@ controllers.controller('main', function($scope){
   }
 
   $scope.isVisible = function(key){
-    // console.log(key, parent(key))
     return $scope.show[parent(key)];
   }
 
   $scope.expand = function(key){
     $scope.show[key] = true;
-    console.log($scope.show)
   }
 
   $scope.collapse = function(key){
     $scope.show[key] = false;
-    // $scope.$apply();
   }
 
   $scope.delete = function(node){
@@ -92,7 +88,7 @@ controllers.controller('main', function($scope){
   function updateStats(){
     statsdQuery("stats", function(data){
       $scope.stats = _.object(data.replace(/END$/m, '').split(/\n/).map(function(x){ return x.split(": ", 2)}))
-      delete $scope.stats[""]
+      delete $scope.stats[""];
       $scope.$apply();
     });
   }
@@ -107,21 +103,27 @@ controllers.controller('main', function($scope){
       // turning {"x":{}} to {"counters.x":{}}
       data = _.object(_.pairs(data).map(function(x){ return [(name + "." + x[0]).replace(/\.$/,''), x[1]] }));
       _.keys(data).forEach(function(key){
+        var arr = key.split(".");
+        var title = _.last(arr);
         data[key] = {
           "id": key,
-          "title": key,
-          "nodes": []
+          "title": title,
+          "nodes": [],
+          "level": arr.length
         };
       });
       _.keys(data).forEach(function(key){
         var arr = key.split(".");
         for(var i = 0; i < arr.length; i++){
-          var newKey = arr.slice(0, i).join(".");
+          var newArr = arr.slice(0, i)
+          var newKey = newArr.join(".");
+          var title = _.last(newArr);
           if(!data[newKey]){
             data[newKey] = {
               "id": newKey,
-              "title": newKey,
-              "nodes": []
+              "title": title,
+              "nodes": [],
+              "level": newArr.length
             };
           }
         }
