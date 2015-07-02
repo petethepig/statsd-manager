@@ -27,24 +27,26 @@
       <h3>Metrics</h3>
       <div>
         <script type="text/ng-template" id="nodes_renderer.html">
-          <span>
-            <span class="blue cursor-pointer" ng-show="node.nodes.length > 0" ng-click="node.expand = !node.expand">
-              <i class="fa fa-folder"></i> {{ node.title }}
+          <div ng-if="!node.deleted">
+            <span>
+              <span class="blue cursor-pointer" ng-show="node.nodes.length > 0" ng-click="node.expand = !node.expand">
+                <i class="fa fa-folder"></i> {{ node.title }}
+              </span>
+              <span ng-show="node.nodes.length <= 0">
+                <i class="fa fa-folder white" ></i> {{ node.title }}
+              </span>
             </span>
-            <span ng-show="node.nodes.length <= 0">
-              <i class="fa fa-folder white" ></i> {{ node.title }}
-            </span>
-          </span>
 
-          <span class="red cursor-pointer" ng-if="node.level > 1" ng-click="delete(node)"><i class="fa fa-times"></i></span>
+            <span class="red cursor-pointer" ng-if="node.level > 1" ng-click="delete(node)"><i class="fa fa-times"></i></span>
 
-          <div class="node-container" ng-if="node.expand">
-            <div class="node" ng-repeat="node in node.nodes" ng-include="'nodes_renderer.html'"></div>
+            <div class="node-container" ng-if="node.expand">
+              <div class="node" ng-repeat="node in node.nodes" ng-include="'nodes_renderer.html'"></div>
+            </div>
           </div>
         </script>
         <div>
           <div class="node-container">
-            <div class="node" ng-repeat="node in tree" ng-include="'nodes_renderer.html'" ng-if="!node.deleted"></div>
+            <div class="node" ng-repeat="node in tree" ng-include="'nodes_renderer.html'"></div>
           </div>
         </div>
       </div>
