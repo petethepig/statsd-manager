@@ -1,0 +1,15 @@
+.node .node-container{
+  margin-left: 1.25rem;
+}
+
+.node{
+  margin: 0.15rem 0;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.container{
+  padding: 0 1rem;
+}

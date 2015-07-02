@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Statsd GUI</title>
+    <link href="bower_components/basscss/css/basscss.css" rel="stylesheet" type="text/css">
+    <link href="bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="styles.css" rel="stylesheet" type="text/css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-app="statsd" ng-controller="main">
+    <section class="container">
+      <h3>Stats</h3>
+      <table class="table-light border">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          <tr ng-repeat="(key, value) in stats">
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Metrics</h3>
+      <div>
+        <script type="text/ng-template" id="nodes_renderer.html">
+          <span>
+            <span class="blue cursor-pointer" ng-show="node.nodes.length > 0" ng-click="node.expand = !node.expand">
+              <i class="fa fa-folder"></i> {{ node.title }}
+            </span>
+            <span ng-show="node.nodes.length <= 0">
+              <i class="fa fa-folder white" ></i> {{ node.title }}
+            </span>
+          </span>
+
+          <span class="red cursor-pointer" ng-click="delete(node)"><i class="fa fa-times"></i></span>
+
+          <div class="node-container" ng-if="node.expand">
+            <div class="node" ng-repeat="node in node.nodes" ng-include="'nodes_renderer.html'"></div>
+          </div>
+        </script>
+        <div>
+          <div class="node-container">
+            <div class="node" ng-repeat="node in tree" ng-include="'nodes_renderer.html'" ng-if="!node.deleted"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
