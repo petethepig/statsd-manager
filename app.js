@@ -1,52 +1,11 @@
 var net = require('net');
-var config = require('./config.json');
 var controllers = angular.module('controllers', [])
 var statsd = angular.module('statsd', [
   'controllers',
 ])
 
 controllers.controller('main', function($scope){
-  $scope.tab = "metrics";
-  $scope.stats = {};
-  $scope.connectionError = null;
-  $scope.show = {
-    "": true,
-  };
-  $scope.isVisible = function(key){
-    return $scope.show[parent(key)];
-  }
-  $scope.expand = function(key){
-    $scope.show[key] = true;
-  }
-  $scope.collapse = function(key){
-    $scope.show[key] = false;
-  }
-  $scope.refresh = function(){
-    $scope.connectionError = null;
-    $scope.loaded = 0;
-    updateStats();
-    updateCounters();
-  }
-  $scope.delete = function(node){
-    node.deleted = true;
-    var array = node.id.split(".");
-    if(array.length < 1){
-      return;
-    }
-    if(!confirm("Are you sure you want to delete [" + node.id + "]?")){
-      return;
-    }
-    var type = array.shift();
-    var command = "del" + type + " " + array.join(".");
-    statsdQuery(command, function(result){
-      console.log(result);
-    });
-    var command = "del" + type + " " + array.join(".") + ".*";
-    statsdQuery(command, function(result){
-      console.log(result);
-    });
-  }
-
+  var updateInterval;
   var hash = {
     "": {
       id: "",
@@ -56,29 +15,51 @@ controllers.controller('main', function($scope){
     }
   };
 
+  function splitAddress(str){
+    var arr = str.split(":", 2);
+    return {
+      address: arr[0],
+      port: arr[1] || 8126
+    }
+  }
+
+  function saveDefaultAddress(address){
+    localStorage.setItem('defaultAddress', address);
+  }
+
+  function loadDefaultAddress(){
+    return localStorage.getItem('defaultAddress') || "127.0.0.1:8126";
+  }
+
   function statsdQuery(str, callback){
     var client = new net.Socket();
+    var config = splitAddress($scope.address);
+    var buffer = new Buffer(0);
+    
     client.connect(config.port, config.address, function() {
       client.write(str);
       client.end();
     });
 
-    var buffer = new Buffer(0);
-
     client.on('connect', function() {
+      saveDefaultAddress($scope.address);
       $scope.connectionError = null;
       $scope.$apply();
     });
+
     client.on('data', function(data) {
       buffer = Buffer.concat([buffer, data])
     });
+
     client.on('error', function(err) {
       console.log('err', err);
       setTimeout(function(){
+        clearInterval(updateInterval);
         $scope.connectionError = err.message || "Unknown connection error";
+        $scope.$apply();
       }, 100);
-      $scope.$apply();
     });
+
     client.on('close', function(err) {
       if(!err){
         callback(buffer.toString());
@@ -171,7 +152,56 @@ controllers.controller('main', function($scope){
     });
   }
 
-  setInterval(updateStats, 2000);
-  $scope.refresh();
   document.body.style.opacity = 1;
+
+  $scope.tab = "metrics";
+  $scope.stats = {};
+  $scope.address = loadDefaultAddress();
+  $scope.firstTry = true;
+  $scope.connectionError = null;
+  $scope.show = {
+    "": true,
+  };
+
+  $scope.isVisible = function(key){
+    return $scope.show[parent(key)];
+  }
+  
+  $scope.expand = function(key){
+    $scope.show[key] = true;
+  }
+  
+  $scope.collapse = function(key){
+    $scope.show[key] = false;
+  }
+
+  $scope.refresh = function(){
+    $scope.connectionError = null;
+    $scope.loaded = 0;
+    $scope.firstTry = false;
+    updateStats();
+    clearInterval(updateInterval);
+    updateInterval = setInterval(updateStats, 2000);
+    updateCounters();
+  }
+
+  $scope.delete = function(node){
+    node.deleted = true;
+    var array = node.id.split(".");
+    if(array.length < 1){
+      return;
+    }
+    if(!confirm("Are you sure you want to delete [" + node.id + "]?")){
+      return;
+    }
+    var type = array.shift();
+    var command = "del" + type + " " + array.join(".");
+    statsdQuery(command, function(result){
+      console.log(result);
+    });
+    var command = "del" + type + " " + array.join(".") + ".*";
+    statsdQuery(command, function(result){
+      console.log(result);
+    });
+  }
 });

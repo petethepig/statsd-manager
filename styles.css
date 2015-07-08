@@ -47,7 +47,7 @@ header {
 }
 
 .preloader,
-.error {
+.login {
   position: fixed;
   background: white;
   top: 0;

@@ -41,7 +41,7 @@
         </div>
       </div>
     </section>
-    <div class="preloader" ng-show="loaded != 8+4+2+1">
+    <div class="preloader" ng-show="loaded != 8 + 4 + 2 + 1">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
         <g class="pre load6">
           <path fill="#FF4136" d="M124.5,57L124.5,57c0,3.9-3.1,7-7,7h-36c-3.9,0-7-3.1-7-7v0c0-3.9,3.1-7,7-7h36
@@ -61,11 +61,20 @@
         </g>
       </svg>
     </div>
-    <div class="error center" ng-show="connectionError">
+    <div class="login center" ng-show="firstTry || connectionError">
       <div class="mt4">
-        <h2>Connection Error</h2>
-        <p>{{ connectionError }}</p>
-        <button class="btn btn-primary bg-olive" ng-click="refresh()">Try again</button>
+        <div ng-if="connectionError">
+          <h2>Connection Error</h2>
+          <p>{{ connectionError }}</p>
+        </div>
+        <div ng-if="!connectionError">
+          <h2>Connect to statsd server</h2>
+        </div>
+        <div>
+          <input class="field" type="text" ng-model="address" autofocus/>
+          <button class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="connectionError">Try again</button>
+          <button class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="!connectionError">Connect</button>
+        </div>
       </div>
     </div>
     <script type="text/ng-template" id="nodes_renderer.html">
