@@ -1,4 +1,4 @@
-# Statsd Manager ![Statsd Manager Icon](https://raw.githubusercontent.com/petethepig/statsd-manager/master/icon.iconset/icon_32x32%402x.png)
+# Statsd Manager ![Statsd Manager Icon](https://raw.githubusercontent.com/petethepig/statsd-manager/master/icon.iconset/icon_32x32.png)
 
 ![Statsd Manager Screenshot](http://f.cl.ly/items/2N2g2O1P2C2U3n263k3K/Image%202015-07-01%20at%205.01.58%20PM.png)
 
