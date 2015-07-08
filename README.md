@@ -4,11 +4,7 @@
 
 ### About
 
-Statsd Manager is a GUI for [statsd admin interface](https://github.com/etsy/statsd/blob/master/docs/admin_interface.md).
-
-It's built on top of [electron](https://github.com/atom/electron).
-
-It works on Mac OS X, Linux and Windows.
+Statsd Manager is a GUI for [statsd admin interface](https://github.com/etsy/statsd/blob/master/docs/admin_interface.md). It's built with [electron](https://github.com/atom/electron). It works on Mac OS X, Linux and Windows.
 
 ### Downloads
 
