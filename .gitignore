@@ -1,1 +1,4 @@
 /bower_components
+.DS_Store
+Statsd Manager.app
+icon.icns

@@ -19,6 +19,7 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    title: "Statsd Manager",
     width: 1024,
     height: 768,
     "min-width": 800,
