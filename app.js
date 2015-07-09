@@ -35,7 +35,7 @@ controllers.controller('main', function($scope){
     var client = new net.Socket();
     var config = splitAddress($scope.address);
     var buffer = new Buffer(0);
-    
+
     client.connect(config.port, config.address, function() {
       client.write(str);
       client.end();
@@ -115,11 +115,14 @@ controllers.controller('main', function($scope){
         _.keys(data).forEach(function(key){
           var arr = key.split(".");
           var title = _.last(arr);
+          var value = data[key];
           data[key] = {
             "id": key,
             "title": title,
             "nodes": [],
-            "level": arr.length
+            "level": arr.length,
+            "value": value,
+            "name": name
           };
         });
         _.keys(data).forEach(function(key){
@@ -166,11 +169,11 @@ controllers.controller('main', function($scope){
   $scope.isVisible = function(key){
     return $scope.show[parent(key)];
   }
-  
+
   $scope.expand = function(key){
     $scope.show[key] = true;
   }
-  
+
   $scope.collapse = function(key){
     $scope.show[key] = false;
   }

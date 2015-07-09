@@ -42,6 +42,24 @@ header {
   color: #3D9970;
 }
 
+.node-value {
+  color: #0074D9;
+  font-style: italic;
+}
+
+.node-value::before,
+.node-value::after {
+  display: inline;
+}
+
+.node-value::before {
+  content: '(';
+}
+.node-value::after {
+  content: ')';
+}
+
+
 .fa {
   font-size: 14px;
 }
