@@ -86,7 +86,7 @@
             {{ node.title }}
           </span>
           <span ng-show="node.nodes.length <= 0">
-            <i class="node-icon fa fa-file-o" ></i> {{ node.title }}
+            <i class="node-icon fa fa-file-o" ></i> {{ node.title }} <span class="node-value" ng-if="node.name !== 'timers'">{{ node.value }}</span>
           </span>
         </span>
 
