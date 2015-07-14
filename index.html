@@ -70,11 +70,11 @@
         <div ng-if="!connectionError">
           <h2>Connect to statsd server</h2>
         </div>
-        <div>
+        <form>
           <input class="field" type="text" ng-model="address" autofocus/>
-          <button class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="connectionError">Try again</button>
-          <button class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="!connectionError">Connect</button>
-        </div>
+          <button type="submit" class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="connectionError">Try again</button>
+          <button type="submit" class="btn btn-primary bg-olive" ng-click="refresh()" ng-if="!connectionError">Connect</button>
+        </form>
       </div>
     </div>
     <script type="text/ng-template" id="nodes_renderer.html">
