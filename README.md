@@ -1,6 +1,6 @@
 # Statsd Manager ![Statsd Manager Icon](https://raw.githubusercontent.com/petethepig/statsd-manager/master/icon.iconset/icon_32x32.png)
 
-![Statsd Manager Screenshot](https://s3.amazonaws.com/f.cl.ly/items/370u0L1t190j3b1X3x25/statsd-manager.png)
+![Statsd Manager Screenshot](https://s3.amazonaws.com/f.cl.ly/items/0M3P2G0K2G0B2a353p3c/Screen%20Shot%202015-07-20%20at%208.39.38%20PM.png)
 
 ### About
 
